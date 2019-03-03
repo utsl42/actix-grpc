@@ -1,0 +1,33 @@
+[package]
+name = "actix-grpc"
+version = "0.1.0"
+authors = ["Nathan Hawkins <utsl@utsl.org>"]
+edition = "2018"
+
+[[bin]]
+name = "server"
+path = "src/server/main.rs"
+
+[[bin]]
+name = "client"
+path = "src/client/main.rs"
+
+[dependencies]
+actix = "0.7"
+prost = "0.4"
+prost-derive = "0.4"
+env_logger = "0.6.0"
+log = "0.4.6"
+futures = "0.1"
+http = "0.1"
+bytes = "0.4"
+tokio = "0.1"
+sled = "0.18.1"
+tower-h2 = { git = "https://github.com/tower-rs/tower-h2" }
+tower-http = { git = "https://github.com/tower-rs/tower-http" }
+tower-grpc = { git = "https://github.com/tower-rs/tower-grpc" }
+tower-service = { git = "https://github.com/tower-rs/tower" }
+tower-util = { git = "https://github.com/tower-rs/tower" }
+
+[build-dependencies]
+tower-grpc-build = { git = "https://github.com/tower-rs/tower-grpc" }
