@@ -22,14 +22,14 @@ pub mod kv {
 }
 
 pub fn main() {
-    let _ = ::env_logger::init();
+    ::env_logger::init();
 
     let set = |key: Vec<u8>, value: Vec<u8>| {
         let mut make_client =
             client::Connect::new(Dst, Default::default(), DefaultExecutor::current());
 
         let service = make_client.make_service(()).map(move |conn| {
-            let uri: http::Uri = format!("http://localhost:50051").parse().unwrap();
+            let uri: http::Uri = "http://localhost:50051".to_string().parse().unwrap();
             let conn = tower_http::add_origin::Builder::new()
                 .uri(uri)
                 .build(conn)
@@ -56,7 +56,7 @@ pub fn main() {
             client::Connect::new(Dst, Default::default(), DefaultExecutor::current());
 
         let service = make_client.make_service(()).map(move |conn| {
-            let uri: http::Uri = format!("http://localhost:50051").parse().unwrap();
+            let uri: http::Uri = "http://localhost:50051".to_string().parse().unwrap();
             let conn = tower_http::add_origin::Builder::new()
                 .uri(uri)
                 .build(conn)
@@ -83,7 +83,7 @@ pub fn main() {
             client::Connect::new(Dst, Default::default(), DefaultExecutor::current());
 
         let service = make_client.make_service(()).map(move |conn| {
-            let uri: http::Uri = format!("http://localhost:50051").parse().unwrap();
+            let uri: http::Uri = "http://localhost:50051".to_string().parse().unwrap();
             let conn = tower_http::add_origin::Builder::new()
                 .uri(uri)
                 .build(conn)
@@ -110,7 +110,7 @@ pub fn main() {
             client::Connect::new(Dst, Default::default(), DefaultExecutor::current());
 
         let service = make_client.make_service(()).map(move |conn| {
-            let uri: http::Uri = format!("http://localhost:50051").parse().unwrap();
+            let uri: http::Uri = "http://localhost:50051".to_string().parse().unwrap();
             let conn = tower_http::add_origin::Builder::new()
                 .uri(uri)
                 .build(conn)

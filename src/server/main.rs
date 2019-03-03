@@ -33,6 +33,7 @@ struct KV {
 }
 
 impl server::Kv for KV {
+    // The tower-grpc generated code needs a GetFuture type defined.
     type GetFuture = Box<
         dyn Future<Item = tower_grpc::Response<GetResponse>, Error = tower_grpc::Status> + Send,
     >;
@@ -42,7 +43,7 @@ impl server::Kv for KV {
                 .send(request.into_inner())
                 // ignore actix::address::MailboxError
                 .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-                .and_then(|res| res.map(|r| Response::new(r))),
+                .and_then(|res| res.map(Response::new)),
         )
     }
 
@@ -54,7 +55,7 @@ impl server::Kv for KV {
             self.addr
                 .send(request.into_inner())
                 .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-                .and_then(|res| res.map(|r| Response::new(r))),
+                .and_then(|res| res.map(Response::new)),
         )
     }
 
@@ -66,7 +67,7 @@ impl server::Kv for KV {
             self.addr
                 .send(request.into_inner())
                 .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-                .and_then(|res| res.map(|r| Response::new(r))),
+                .and_then(|res| res.map(Response::new)),
         )
     }
 
@@ -78,13 +79,13 @@ impl server::Kv for KV {
             self.addr
                 .send(request.into_inner())
                 .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-                .and_then(|res| res.map(|r| Response::new(r))),
+                .and_then(|res| res.map(Response::new)),
         )
     }
 }
 
 pub fn main() -> Result<(), Box<Error>> {
-    let _ = ::env_logger::init();
+    ::env_logger::init();
     let tree = sled::Db::start_default("test_db")?.open_tree(b"test".to_owned().to_vec())?;
 
     actix::System::run(move || {
