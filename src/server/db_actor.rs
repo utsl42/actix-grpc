@@ -31,7 +31,9 @@ impl Handler<GetRequest> for SledExecutor {
         // get returns a Result<Option<PinnedValue>, ()>
         // So here we're going to map the error Result to a tower_rpc::Status, then put
         // an error into the gRPC message if the Option is None.
-        let v = self.db.get(&msg.key)
+        let v = self
+            .db
+            .get(&msg.key)
             .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))?;
         match v {
             Some(value) => Ok(GetResponse {
@@ -42,13 +44,13 @@ impl Handler<GetRequest> for SledExecutor {
                 error: Some(NotFound {
                     key: msg.key.clone(),
                 }),
-                value: vec!(),
+                value: vec![],
             }),
         }
     }
 }
 
-type SetResult = std::result::Result<SetResponse,tower_grpc::Status>;
+type SetResult = std::result::Result<SetResponse, tower_grpc::Status>;
 impl Message for SetRequest {
     type Result = SetResult;
 }
@@ -57,7 +59,8 @@ impl Handler<SetRequest> for SledExecutor {
     type Result = SetResult;
 
     fn handle(&mut self, msg: SetRequest, _: &mut Self::Context) -> Self::Result {
-        self.db.set(msg.key, msg.value)
+        self.db
+            .set(msg.key, msg.value)
             .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))?;
         Ok(SetResponse {})
     }
@@ -72,7 +75,8 @@ impl Handler<DeleteRequest> for SledExecutor {
     type Result = DeleteResult;
 
     fn handle(&mut self, msg: DeleteRequest, _: &mut Self::Context) -> Self::Result {
-        self.db.del(&msg.key)
+        self.db
+            .del(&msg.key)
             .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))?;
         Ok(DeleteResponse {})
     }

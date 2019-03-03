@@ -120,10 +120,7 @@ pub fn main() {
         service
             .and_then(|mut client| {
                 client
-                    .scan(Request::new(kv::ScanRequest {
-                        start_key,
-                        end_key,
-                    }))
+                    .scan(Request::new(kv::ScanRequest { start_key, end_key }))
                     .map_err(|e| panic!("gRPC request failed; err={:?}", e))
             })
             .and_then(|response| {
@@ -135,14 +132,13 @@ pub fn main() {
             })
     };
 
-
     tokio::run(
         set(b"asdf".to_vec(), b"junk".to_vec())
-        .and_then(move |()| set(b"foo".to_vec(), b"12345".to_vec()))
-        .and_then(move |()| set(b"bar".to_vec(), b"67890".to_vec()))
-        .and_then(move |()| del(b"asdf".to_vec()))
-        .and_then(move |()| get(b"foo".to_vec()))
-        .and_then(move |()| scan(b"aaa".to_vec(), b"zzz".to_vec()))
+            .and_then(move |()| set(b"foo".to_vec(), b"12345".to_vec()))
+            .and_then(move |()| set(b"bar".to_vec(), b"67890".to_vec()))
+            .and_then(move |()| del(b"asdf".to_vec()))
+            .and_then(move |()| get(b"foo".to_vec()))
+            .and_then(move |()| scan(b"aaa".to_vec(), b"zzz".to_vec())),
     );
 }
 

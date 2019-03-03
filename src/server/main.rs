@@ -37,45 +37,49 @@ impl server::Kv for KV {
         dyn Future<Item = tower_grpc::Response<GetResponse>, Error = tower_grpc::Status> + Send,
     >;
     fn get(&mut self, request: Request<GetRequest>) -> Self::GetFuture {
-        Box::new( self
-            .addr
-            .send(request.into_inner())
-            // ignore actix::address::MailboxError
-            .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-            .and_then(|res| res.map(|r| Response::new(r))))
+        Box::new(
+            self.addr
+                .send(request.into_inner())
+                // ignore actix::address::MailboxError
+                .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
+                .and_then(|res| res.map(|r| Response::new(r))),
+        )
     }
 
     type SetFuture = Box<
         dyn Future<Item = tower_grpc::Response<SetResponse>, Error = tower_grpc::Status> + Send,
     >;
     fn set(&mut self, request: Request<SetRequest>) -> Self::SetFuture {
-        Box::new( self
-            .addr
-            .send(request.into_inner())
-            .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-            .and_then(|res| res.map(|r| Response::new(r))))
+        Box::new(
+            self.addr
+                .send(request.into_inner())
+                .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
+                .and_then(|res| res.map(|r| Response::new(r))),
+        )
     }
 
     type DeleteFuture = Box<
         dyn Future<Item = tower_grpc::Response<DeleteResponse>, Error = tower_grpc::Status> + Send,
     >;
     fn delete(&mut self, request: Request<DeleteRequest>) -> Self::DeleteFuture {
-        Box::new(self
-            .addr
-            .send(request.into_inner())
-            .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-            .and_then(|res| res.map(|r|Response::new(r))))
+        Box::new(
+            self.addr
+                .send(request.into_inner())
+                .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
+                .and_then(|res| res.map(|r| Response::new(r))),
+        )
     }
 
     type ScanFuture = Box<
         dyn Future<Item = tower_grpc::Response<ScanResponse>, Error = tower_grpc::Status> + Send,
     >;
     fn scan(&mut self, request: Request<ScanRequest>) -> Self::ScanFuture {
-        Box::new(self
-            .addr
-            .send(request.into_inner())
-            .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
-            .and_then(|res| res.map(|r| Response::new(r))))
+        Box::new(
+            self.addr
+                .send(request.into_inner())
+                .map_err(|_| tower_grpc::Status::with_code(tower_grpc::Code::Internal))
+                .and_then(|res| res.map(|r| Response::new(r))),
+        )
     }
 }
 
