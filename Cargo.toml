@@ -25,7 +25,7 @@ tokio = "0.1"
 sled = "0.18.1"
 tower-h2 = { git = "https://github.com/tower-rs/tower-h2" }
 tower-http = { git = "https://github.com/tower-rs/tower-http" }
-tower-grpc = { git = "https://github.com/tower-rs/tower-grpc" }
+tower-grpc = { git = "https://github.com/tower-rs/tower-grpc", rev="5b5d1a6f392d6cc81382f82a269b7b0d77b0755f" }
 tower-service = { git = "https://github.com/tower-rs/tower" }
 tower-util = { git = "https://github.com/tower-rs/tower" }
 
